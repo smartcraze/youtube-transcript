@@ -1,8 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound, VideoUnavailable
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Allow all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all domains
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 @app.get("/")
 def root():
@@ -17,7 +27,7 @@ def get_transcript(video_id: str):
             "video_id": video_id,
             "transcript": full_transcript
         }
-    
+
     except VideoUnavailable:
         raise HTTPException(status_code=404, detail="Video is unavailable.")
     except TranscriptsDisabled:
