@@ -54,7 +54,7 @@ docker run -p 8000:8000 youtube-transcript
 ### Example Request (if using FastAPI)
 
 ```bash
-GET /transcript?video_id=VIDEO_ID_HERE
+GET /transcript/{video_id}
 ```
 
 ## 📚 Tech Stack
